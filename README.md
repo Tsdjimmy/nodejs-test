@@ -103,3 +103,66 @@ Thank you for providing me this opportunity. In addition to fulfilling the requi
 
 1. Established a new folder structure.
 2. Written some unit tests for all API endpoints to ensure their functionality.
+
+Postman Endpoints and Request Bodies
+1. GET /contracts/:id
+
+Description: Get a contract by ID if it belongs to the profile calling.
+Request URL: http://localhost:3001/contracts/1
+Headers:
+profile_id: 1 (example profile ID)
+Response: JSON object representing the contract if it belongs to the authenticated profile.
+2. GET /contracts
+
+Description: Get a list of contracts belonging to the authenticated user (client or contractor), excluding terminated contracts.
+Request URL: http://localhost:3001/contracts
+Headers:
+profile_id: 1 (example profile ID)
+Response: JSON array containing active contracts for the authenticated user.
+3. GET /jobs/unpaid
+
+Description: Get all unpaid jobs for the authenticated user (client or contractor) under active contracts.
+Request URL: http://localhost:3001/jobs/unpaid
+Headers:
+profile_id: 1 (example profile ID)
+Response: JSON array containing unpaid jobs for the authenticated user.
+4. POST /jobs/:job_id/pay
+
+Description: Pay for a job by ID. The client's balance must be sufficient to pay for the job.
+Request URL: http://localhost:3001/jobs/1/pay (example job ID)
+Headers:
+profile_id: 1 (example profile ID)
+Content-Type: application/json
+Request Body:
+json
+Copy code
+{
+    "amount": 100 // Example payment amount
+}
+Response: Success or error message indicating payment status.
+5. POST /balances/deposit/:userId
+
+Description: Deposit money into a client's balance, restricted to 25% of their total jobs to pay.
+Request URL: http://localhost:3001/balances/deposit/1 (example user ID)
+Headers:
+profile_id: 1 (example profile ID)
+Content-Type: application/json
+Request Body:
+json
+Copy code
+{
+    "amount": 50 // Example deposit amount
+}
+Response: Success or error message indicating deposit status.
+6. GET /admin/best-profession?start=<date>&end=<date>
+
+Description: Get the profession that earned the most money within the specified time range.
+Request URL: http://localhost:3001/admin/best-profession?start=2023-01-01&end=2023-12-31 (example time range)
+Headers: No specific headers required for this request.
+Response: JSON object containing the best-performing profession and earnings.
+7. GET /admin/best-clients?start=<date>&end=<date>&limit=<integer>
+
+Description: Get the top paying clients within the specified time period.
+Request URL: http://localhost:3001/admin/best-clients?start=2023-01-01&end=2023-12-31&limit=2 (example time range and limit)
+Headers: No specific headers required for this request.
+Response: JSON array containing top paying clients with their IDs, full names, and amounts paid.
